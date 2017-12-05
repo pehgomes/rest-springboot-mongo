@@ -1,5 +1,6 @@
 /target/
 *.class
+*.classpath
 
 # sbteclipse plugin
 .target
@@ -27,4 +28,5 @@ target/
 *.zip
 *.tar.gz
 *.rar
+
 
