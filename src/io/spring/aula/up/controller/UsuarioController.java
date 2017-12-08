@@ -3,6 +3,7 @@ package io.spring.aula.up.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,6 +43,16 @@ public class UsuarioController {
 	public Usuario consultarUsuarioPorId(@PathVariable String id) {
 		return this.usuarioService.buscarUsuarioPorId(id);
 	}
+	
+	@RequestMapping(value = "/usuario/{page}/{count}", method = RequestMethod.GET)
+	public Page<Usuario> listaPaginada(@PathVariable int page, @PathVariable int count) {
+		return this.usuarioService.listaPaginada(count, page);
+	}
+	
+	@RequestMapping(value = "/usuario/{nome}/nome", method = RequestMethod.GET)
+    public List<Usuario> listaPaginada(@PathVariable String nome) {
+        return this.usuarioService.buscarPorNome(nome);
+}
 
 
 }
