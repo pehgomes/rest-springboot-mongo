@@ -32,6 +32,10 @@ public class Usuario {
 	public Usuario() {
 	}
 
+	public Usuario(String string, String string2, String string3, List<Perfil> novosPerfis) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getId() {
 		return id;
 	}
