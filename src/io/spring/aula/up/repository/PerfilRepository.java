@@ -9,4 +9,8 @@ import io.spring.aula.up.entity.Perfil;
 public interface PerfilRepository extends MongoRepository<Perfil, String> {
 
 	public List<Perfil> findByNomeLikeIgnoreCase(String nome);
+
+	public Perfil findByNome(String string);
+
+	public Perfil save(Perfil perfil);
 }

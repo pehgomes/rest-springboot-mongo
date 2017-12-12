@@ -11,6 +11,10 @@ public class Perfil {
 	
 	private String nome;
 
+	public Perfil(String string) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getId() {
 		return id;
 	}
