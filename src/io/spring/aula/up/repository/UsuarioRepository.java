@@ -9,4 +9,6 @@ import io.spring.aula.up.entity.Usuario;
 public interface UsuarioRepository extends MongoRepository<Usuario, String> {
 
 	List<Usuario> findByNomeLikeIgnoreCase(String name);
+
+	Usuario findByEmail(String username);
 }
