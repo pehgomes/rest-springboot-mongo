@@ -11,64 +11,68 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import io.spring.aula.up.entity.Usuario;
 import io.spring.aula.up.repository.UsuarioRepository;
 
-public class MeuUserDetailService implements UserDetailsService{
+public class MeuUserDetailService implements UserDetailsService {
+
+	private UsuarioRepository usuarioRepository;
 
 	@Autowired
-	private UsuarioRepository usuarioRepository;
-	
+	public MeuUserDetailService(UsuarioRepository usuarioRepository) {
+		this.usuarioRepository = usuarioRepository;
+	}
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Usuario usuario = usuarioRepository.findByEmail(username);;
+		Usuario usuario = usuarioRepository.findByEmail(username);
+		;
 		if (usuario == null) {
 			throw new UsernameNotFoundException(String.format("Usuario nao existe", usuario));
 		}
-		
-		return new UserReoisitoryUserDetails();
+
+		return new UserRepositoryUserDetails(usuario);
 	}
-	
-	
-	private final static class UserReoisitoryUserDetails extends Usuario implements UserDetails {
+
+	private final static class UserRepositoryUserDetails extends Usuario implements UserDetails {
+
+		private static final long serialVersionUID = 1L;
+
+		private UserRepositoryUserDetails(Usuario usuario) {
+			super(usuario);
+		}
 
 		@Override
 		public Collection<? extends GrantedAuthority> getAuthorities() {
-			// TODO Auto-generated method stub
-			return null;
+			return (Collection<? extends GrantedAuthority>) getPerfis();
 		}
 
 		@Override
 		public String getPassword() {
-			// TODO Auto-generated method stub
-			return null;
+			return getPassword();
 		}
 
 		@Override
 		public String getUsername() {
-			// TODO Auto-generated method stub
-			return null;
+			return getEmail();
 		}
 
 		@Override
 		public boolean isAccountNonExpired() {
-			// TODO Auto-generated method stub
-			return false;
+			return true;
 		}
 
 		@Override
 		public boolean isAccountNonLocked() {
-			// TODO Auto-generated method stub
-			return false;
+			return true;
 		}
 
 		@Override
 		public boolean isCredentialsNonExpired() {
-			// TODO Auto-generated method stub
-			return false;
+			return true;
 		}
 
 		@Override
 		public boolean isEnabled() {
-			// TODO Auto-generated method stub
-			return false;
-		}}
+			return true;
+		}
+	}
 
 }

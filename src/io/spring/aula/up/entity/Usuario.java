@@ -36,6 +36,9 @@ public class Usuario {
 		// TODO Auto-generated constructor stub
 	}
 
+	public Usuario(Usuario usuario) {
+	}
+
 	public String getId() {
 		return id;
 	}

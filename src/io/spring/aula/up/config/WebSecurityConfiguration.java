@@ -39,7 +39,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		@Override
 		public void configure(HttpSecurity http) throws Exception {
 			http.logout().invalidateHttpSession(true).clearAuthentication(true).and().authorizeRequests()
-					.antMatchers("/perfil/**").hasAnyRole("ADMIN, OREIA").antMatchers("/usuario/**")
+					.antMatchers("/perfil/**").hasAnyRole("ADMIN, OREIA")
+					.antMatchers("/usuario/**")
 					.hasAnyRole("ADMIN, OREIA").anyRequest().denyAll().antMatchers(HttpMethod.OPTIONS, "/**")
 					.permitAll();
 		}
