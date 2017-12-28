@@ -25,7 +25,7 @@ import io.spring.aula.up.service.MeuUserDetailsService;
 
 
 @Configuration
-public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter { 
 	private static final String RESOURCE_ID = "restservice";
 
 	@Configuration
