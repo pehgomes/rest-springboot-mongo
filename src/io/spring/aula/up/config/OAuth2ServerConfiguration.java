@@ -19,10 +19,12 @@ import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 
-import io.spring.aula.up.service.MeuUserDetailService;
+import io.spring.aula.up.service.MeuUserDetailsService;
+
 
 @Configuration
 public class OAuth2ServerConfiguration {
+	
     private static final String RESOURCE_ID = "restservice";
 
     @Configuration
@@ -34,7 +36,7 @@ public class OAuth2ServerConfiguration {
         public void configure(ResourceServerSecurityConfigurer resources) {
             resources
                     .resourceId(RESOURCE_ID);
-        }	
+        }
 
         @Override
         public void configure(HttpSecurity http) throws Exception {
@@ -63,7 +65,7 @@ public class OAuth2ServerConfiguration {
         private AuthenticationManager authenticationManager;
 
         @Autowired
-        private MeuUserDetailService userDetailsService;
+        private MeuUserDetailsService meuUserDetailsService;
 
         @Override
         public void configure(AuthorizationServerEndpointsConfigurer endpoints)
@@ -71,7 +73,7 @@ public class OAuth2ServerConfiguration {
             endpoints
                     .tokenStore(this.tokenStore)
                     .authenticationManager(this.authenticationManager)
-                    .userDetailsService(userDetailsService);
+                    .userDetailsService(meuUserDetailsService);
         }
 
         @Override
@@ -83,8 +85,7 @@ public class OAuth2ServerConfiguration {
                     .refreshTokenValiditySeconds(2592000)
                     .resourceIds(RESOURCE_ID)
                     .secret("123")
-                    .accessTokenValiditySeconds(200000988)
-                    ;
+                    .accessTokenValiditySeconds(200000988);
 
         }
 
@@ -98,5 +99,6 @@ public class OAuth2ServerConfiguration {
         }
 
     }
+
 
 }

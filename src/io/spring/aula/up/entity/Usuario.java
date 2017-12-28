@@ -14,16 +14,18 @@ public class Usuario {
 
 	private String nome;
 
+	private String email;
+
+	private String senha; 
 	/**
 	 * Utilizado para fazer relacionamentos entre documentos, aqui um
 	 * {@link Usuario} pode possuir um ou muitos {@link List}{@link Perfil}
 	 **/
 	@DBRef
 	private List<Perfil> perfis;
-
+	
 	private int idade;
 
-	private String email;
 
 	public Usuario(String nome) {
 		this.nome = nome;
@@ -33,7 +35,6 @@ public class Usuario {
 	}
 
 	public Usuario(String string, String string2, String string3, List<Perfil> novosPerfis) {
-		// TODO Auto-generated constructor stub
 	}
 
 	public Usuario(Usuario usuario) {
@@ -63,14 +64,6 @@ public class Usuario {
 		this.perfis = perfis;
 	}
 
-	public int getIdade() {
-		return idade;
-	}
-
-	public void setIdade(int idade) {
-		this.idade = idade;
-	}
-
 	public String getEmail() {
 		return email;
 	}
@@ -79,4 +72,20 @@ public class Usuario {
 		this.email = email;
 	}
 
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+	public int getIdade() {
+		return idade;
+	}
+
+	public void setIdade(int idade) {
+		this.idade = idade;
+	}
+	
 }

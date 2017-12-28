@@ -21,7 +21,8 @@ import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 
-import io.spring.aula.up.service.MeuUserDetailService;
+import io.spring.aula.up.service.MeuUserDetailsService;
+
 
 @Configuration
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -58,7 +59,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		private AuthenticationManager authenticationManager;
 
 		@Autowired
-		private MeuUserDetailService userDetailsService;
+		private MeuUserDetailsService userDetailsService;
 
 		@Override
 		public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
