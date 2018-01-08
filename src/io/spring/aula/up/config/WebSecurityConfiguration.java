@@ -1,89 +1,41 @@
 package io.spring.aula.up.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
-import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
-import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
-import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
-import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
-import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 
 import io.spring.aula.up.service.MeuUserDetailsService;
 
 
 @Configuration
+@EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter { 
-	private static final String RESOURCE_ID = "restservice";
+	
+    @Autowired
+    private MeuUserDetailsService userDetailsService;
 
-	@Configuration
-	@EnableResourceServer
-	protected static class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService);
+    }
 
-		@Override
-		public void configure(ResourceServerSecurityConfigurer resources) {
-			resources.resourceId(RESOURCE_ID);
-		}
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
-		@Override
-		public void configure(HttpSecurity http) throws Exception {
-			http.logout().invalidateHttpSession(true).clearAuthentication(true).and().authorizeRequests()
-					.antMatchers("/perfil/**").hasAnyRole("ADMIN, OREIA")
-					.antMatchers("/usuario/**")
-					.hasAnyRole("ADMIN, OREIA").anyRequest().denyAll().antMatchers(HttpMethod.OPTIONS, "/**")
-					.permitAll();
-		}
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**")
+        .antMatchers(HttpMethod.GET, "/public/**");
+    }
+	
 
-	}
-
-	@Configuration
-	@EnableAuthorizationServer
-	protected static class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
-
-		private TokenStore tokenStore = new InMemoryTokenStore();
-
-		@Autowired
-		@Qualifier("authenticationManagerBean")
-		private AuthenticationManager authenticationManager;
-
-		@Autowired
-		private MeuUserDetailsService userDetailsService;
-
-		@Override
-		public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-			endpoints.tokenStore(this.tokenStore).authenticationManager(this.authenticationManager)
-					.userDetailsService((UserDetailsService) userDetailsService);
-		}
-
-		@Override
-		public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-			clients.inMemory().withClient("cliente")
-					.authorizedGrantTypes("password", "authorization_code", "refresh_token")
-					.scopes("bar", "read", "write").refreshTokenValiditySeconds(2592000).resourceIds(RESOURCE_ID)
-					.secret("123").accessTokenValiditySeconds(200000988);
-
-		}
-
-		@Bean
-		@Primary
-		public DefaultTokenServices tokenServices() {
-			DefaultTokenServices tokenServices = new DefaultTokenServices();
-			tokenServices.setSupportRefreshToken(true);
-			tokenServices.setTokenStore(this.tokenStore);
-			return tokenServices;
-		}
-
-	}
 }
