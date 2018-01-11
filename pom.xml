@@ -41,7 +41,16 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-acl</artifactId>
 		</dependency>
+	
+		<!--DEVTOOLS -->
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+		</dependency>
+		
 	</dependencies>
+
 
 	<build>
 		<sourceDirectory>src</sourceDirectory>
