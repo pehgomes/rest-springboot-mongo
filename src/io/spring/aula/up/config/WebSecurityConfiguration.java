@@ -30,7 +30,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-
+    
+	/**
+	 * ver qualquer metodo que queira passar e ignorar o metodo especifico exemplo:
+	 * todo endpoint que estiver em /public passaram, não precisarao de autenticacao
+	 **/
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**")

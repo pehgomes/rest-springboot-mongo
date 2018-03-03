@@ -17,12 +17,14 @@ public class Usuario {
 	private String email;
 
 	private String senha; 
+	
+	@DBRef
+	private List<Perfil> perfis;
+
 	/**
 	 * Utilizado para fazer relacionamentos entre documentos, aqui um
 	 * {@link Usuario} pode possuir um ou muitos {@link List}{@link Perfil}
 	 **/
-	@DBRef
-	private List<Perfil> perfis;
 	
 	private int idade;
 
@@ -34,10 +36,18 @@ public class Usuario {
 	public Usuario() {
 	}
 
-	public Usuario(String string, String string2, String string3, List<Perfil> novosPerfis) {
+	public Usuario(String nome, String email, String senha, List<Perfil> novosPerfis) {
+		this.nome = nome;
+		this.email = email;
+		this.senha = senha;
+		this.perfis = novosPerfis;
 	}
 
 	public Usuario(Usuario usuario) {
+		this.nome = usuario.getNome();
+		this.email = usuario.getEmail();
+		this.senha = usuario.getSenha();
+		this.perfis = usuario.getPerfis();
 	}
 
 	public String getId() {
